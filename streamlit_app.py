@@ -40,9 +40,6 @@ try:
   else:
     back_from_function = get_fruityvice_data(fruit_choice)
     streamlit.dataframe(back_from_function)
-      #fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-      #fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
-      #streamlit.dataframe(fruityvice_normalized)
      
 except URLError as e:
     streamlit.error()
@@ -53,3 +50,9 @@ def get_fruit_load_list():
       with my_cnx.cursor() as my_cur:
             my_cur.execute("select * from fruit_load_list")
             return my_cur.fetchall()
+      
+#Add a Button to load the fruit
+if streamlit.button('Get Fruit Load List'):
+      my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"]
+      my_data_rows = get_fruit_load_list()
+      streamlit.dataframe(my_data_rows)
